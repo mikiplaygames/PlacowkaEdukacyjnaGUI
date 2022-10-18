@@ -1,0 +1,30 @@
+﻿<Window x:Class="dziki.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:dziki"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="15*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ListBox Name="guiSzkolaLista" SelectionChanged="Szkola_SelectionChanged" Grid.Row="1"/>
+        <ListBox Name="guiKlasaLista"  SelectionChanged="Klasa_SelectionChanged" Grid.Row="1" Grid.Column="1"/>
+        <ListBox Name="guiUczenLista" SelectionChanged="Uczen_SelectionChanged" Grid.Row="1" Grid.Column="2"/>
+
+        <Menu/>
+        <TextBlock x:Name="guiOpisSzkola" Grid.Column="3" HorizontalAlignment="Center" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Height="132" FontSize="16" Margin="0,265,0,0"/>
+        <TextBlock x:Name="guiOpisKlasa" Grid.Column="3" HorizontalAlignment="Center" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Height="132" FontSize="16" Margin="0,124,0,0"/>
+        <TextBlock x:Name="guiOpisUczen" Grid.Column="3" HorizontalAlignment="Center" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Height="132" FontSize="16" Margin="0,10,0,0"/>
+    </Grid>
+</Window>
