@@ -54,7 +54,7 @@ namespace dziki
         {
             try
             {
-                obecnieWybranyUczen = obecnieWybranaKlasa.klasa[int.Parse(guiUczenLista.SelectedItem.ToString().Split()[0])];
+                obecnieWybranyUczen = obecnieWybranaKlasa.klasa[int.Parse(guiUczenLista.SelectedItem?.ToString().Split()[0])];
             }
             catch (NullReferenceException)
             {
@@ -67,18 +67,6 @@ namespace dziki
         {
             InitializeComponent();
             ShowSchools(ImportData());
-
-
-
-
-
-
-
-
-
-
-
-
 
             void ShowSchools(ListaSzkol szkoly)
             {
