@@ -18,11 +18,20 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="15*"></RowDefinition>
         </Grid.RowDefinitions>
+
+        <Menu Grid.Column="0" Grid.ColumnSpan="1">
+            <MenuItem Header="OpcjeAdministratorskie" HorizontalAlignment="Center">
+                <MenuItem Header="DodajSzkole" Click="DodajSzkole_Click"></MenuItem>
+                <MenuItem Header="Dodajklase" Click="DodajKlase_Click"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="DodajUcznia"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <TextBlock Name="informacjeOpcji" Text="" HorizontalAlignment="Center" Grid.Column="1"></TextBlock>
+
         <ListBox Name="guiSzkolaLista" SelectionChanged="Szkola_SelectionChanged" Grid.Row="1" Background="LightGreen" Opacity="90"/>
         <ListBox Name="guiKlasaLista"  SelectionChanged="Klasa_SelectionChanged" Grid.Row="1" Grid.Column="1" Background="Green" Opacity="90"/>
         <ListBox Name="guiUczenLista" SelectionChanged="Uczen_SelectionChanged" Grid.Row="1" Grid.Column="2" Background="DarkGreen" Opacity="90"/>
-
-        <Menu/>
         <Image Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Source="/resources/mondredrzewo.png" Stretch="UniformToFill" Opacity="0.9"/>
         <TextBlock x:Name="guiOpisSzkola" Grid.Column="3" HorizontalAlignment="Center" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Height="132" FontSize="16" Margin="0,265,0,0"/>
         <TextBlock x:Name="guiOpisKlasa" Grid.Column="3" HorizontalAlignment="Center" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Height="132" FontSize="16" Margin="0,124,0,0"/>

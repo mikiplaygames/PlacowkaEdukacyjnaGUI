@@ -1,5 +1,8 @@
-﻿using System;
+﻿using PlacowkaEdukacyjnaGUI;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,10 +23,24 @@ namespace dziki
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ListaSzkol obecnaListaSzkol;
-        private Szkola obecnieWybranaSzkola;
-        private Klasa obecnieWybranaKlasa;
-        private Uczen obecnieWybranyUczen;
+        public static MainWindow _MainWindow;
+
+        internal ListaSzkol obecnaListaSzkol;
+        internal Szkola obecnieWybranaSzkola;
+        internal Klasa obecnieWybranaKlasa;
+        internal Uczen obecnieWybranyUczen;
+
+        /*
+        private void UpdateListBox(ListBox listBox, IEnumerator t)
+        {
+            listBox.ItemsSource = null;
+            listBox.Items.Clear();
+
+            foreach (var item in t)
+            {
+
+            }
+        }*/
         private void Szkola_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             guiKlasaLista.ItemsSource = null;
@@ -39,15 +56,23 @@ namespace dziki
 
         private void Klasa_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            guiUczenLista.ItemsSource = null;
-            guiUczenLista.Items.Clear();
-            obecnieWybranyUczen = null;
-            foreach (var item in obecnieWybranaSzkola.szkola[guiKlasaLista.SelectedItem.ToString()].klasa)
+            try
             {
-                guiUczenLista.Items.Add(item.Key + $" {item.Value.imie} {item.Value.nazwisko}");
+                guiUczenLista.ItemsSource = null;
+                guiUczenLista.Items.Clear();
+                obecnieWybranyUczen = null;
+                foreach (var item in obecnieWybranaSzkola.szkola[guiKlasaLista.SelectedItem.ToString()].klasa)
+                {
+                    guiUczenLista.Items.Add(item.Key + $" {item.Value.imie} {item.Value.nazwisko}");
+                }
+                obecnieWybranaKlasa = obecnieWybranaSzkola.szkola[guiKlasaLista.SelectedItem.ToString()];
+                guiOpisKlasa.Text = $"Statystyki klasy:\n{obecnieWybranaKlasa.ObliczSredniaInteligencja()} iq\n{obecnieWybranaKlasa.ObliczSredniaZwinnosc()} zwinnosc\n{obecnieWybranaKlasa.ObliczSredniaPkt()} pkt zachowania";
             }
-            obecnieWybranaKlasa = obecnieWybranaSzkola.szkola[guiKlasaLista.SelectedItem.ToString()];
-            guiOpisKlasa.Text = $"Statystyki klasy:\n{obecnieWybranaKlasa.ObliczSredniaInteligencja()} iq\n{obecnieWybranaKlasa.ObliczSredniaZwinnosc()} zwinnosc\n{obecnieWybranaKlasa.ObliczSredniaPkt()} pkt zachowania";
+            catch (NullReferenceException)
+            {
+                guiOpisKlasa.Text = "";
+                guiOpisUczen.Text = "";
+            }
         }
 
         private void Uczen_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -56,7 +81,7 @@ namespace dziki
             {
                 obecnieWybranyUczen = obecnieWybranaKlasa.klasa[int.Parse(guiUczenLista.SelectedItem?.ToString().Split()[0])];
             }
-            catch (NullReferenceException)
+            catch (ArgumentNullException)
             {
                 guiOpisUczen.Text = "";
             }
@@ -65,8 +90,15 @@ namespace dziki
         }
         public MainWindow()
         {
+            #region ImportDanych
+
             InitializeComponent();
             ShowSchools(ImportData());
+
+            if (_MainWindow == null)
+                _MainWindow = this;
+            else
+                Console.WriteLine("jest problem ");
 
             void ShowSchools(ListaSzkol szkoly)
             {
@@ -84,6 +116,8 @@ namespace dziki
                 ListaSzkol szkoly = new();
 
                 Szkola zsl = new();
+                Szkola zsl2 = new();
+
 
                 Klasa klasa1 = new();
                 Klasa klasa2 = new();
@@ -124,8 +158,45 @@ namespace dziki
                 zsl.AddClass("4h", klasa3);
 
                 szkoly.AddSchool("zsl", zsl);
+                szkoly.AddSchool("zsl2", zsl2);
                 return szkoly;
             }
+            #endregion
+        }
+
+        //public List<OpcjeZListy> opcjeZListy = new List<OpcjeZListy>() { }; bez sensu wsm
+
+
+        private void DodajSzkole_Click(object sender, RoutedEventArgs e)
+        {
+            informacjeOpcji.Text = "Dodawanie DO ListySzkol";
+            SecondaryWindow secondaryWindow = new SecondaryWindow();
+            secondaryWindow.ShowDialog();
+        }
+
+        private void DodajKlase_Click(object sender, RoutedEventArgs e)
+        {
+            informacjeOpcji.Text = "Dodawanie DO Szkoly";
+            DodanieKlasy secondaryWindow = new DodanieKlasy();
+            secondaryWindow.ShowDialog();
+        }
+        private void DodajUczen_Click(object sender, RoutedEventArgs e)
+        {
+            informacjeOpcji.Text = "Dodawanie DO Klasy";
+            SecondaryWindow secondaryWindow = new SecondaryWindow();
+            secondaryWindow.ShowDialog();
+        }
+        private void Dalej_Click(object sender, RoutedEventArgs e)
+        {
+            /*
+            if (informacjeDodawania.Text == "" || informacjeDodawania.Text == null) return;
+
+            if (opcja == 0 && obecnaListaSzkol != null && !obecnaListaSzkol.listaSzkol.TryGetValue(informacjeDodawania.Text, out _))
+                obecnaListaSzkol.AddSchool(informacjeDodawania.Text, new Szkola());
+            else if (opcja == 1 && obecnieWybranaSzkola != null && !obecnieWybranaSzkola.szkola.TryGetValue(informacjeDodawania.Text, out _))
+                obecnieWybranaSzkola.AddClass(informacjeDodawania.Text, new Klasa());
+         */       
         }
     }
+    //public delegate void OpcjeZListy(Type t); bez sensu x2
 }
